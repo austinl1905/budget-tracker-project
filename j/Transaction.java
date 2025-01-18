@@ -22,6 +22,6 @@ class Transaction
 
     @Override
     public String toString()
-    {   return "Amount: " + this.amount + "/nDate created: " + this.date + "/nCategory: " + this.category;   }
+    {   return "Amount: " + this.amount + "\nDate created: " + this.date + "\nCategory: " + this.category;   }
 
 }

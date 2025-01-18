@@ -124,13 +124,19 @@ class Account
             transactions.set(i, transactions.get(transactions.size() - 1 - i));
             transactions.set(transactions.size() - 1 - i, temp);
         }
+    }
 
+    public int getTotalTransactionAmount()
+    {   int totalTransactionAmount = 0;
+        for (Transaction transaction : this.transactions)
+        {   totalTransactionAmount += transaction.getAmount();   }
+        return totalTransactionAmount;
     }
 
     public void open()
     {   boolean flag = true;
         while(flag)
-        {   System.out.println("Enter number for the following actions:\n\t1: Add transaction\n\t2: Remove transaction\n\t3: View transaction log\n\t4: View statistics\n\t5: Sort transactions (Ascending)\n\t6: Sort transactions (Descending)\n\t7: Stop/Save transactions");
+        {   System.out.println("Enter number for the following actions:\n\t1: Add transaction\n\t2: View transaction log\n\t3: View statistics\n\t4: Sort transactions (Ascending)\n\t5: Sort transactions (Descending)\n\t6: Stop");
             int input = this.scan.nextInt();
             if (input == 1) 
             {   System.out.println("Enter transaction:");
@@ -144,15 +150,19 @@ class Account
                 {   this.addTransaction(new Transaction(transactionAmount, category));   }
             } 
             else if (input == 2) 
-            {
-
+            {   for (Transaction transaction : this.transactions)
+                {   System.out.println(transaction);   }
             } 
             else if (input == 3) 
-            {
-
-            } 
+            {   System.out.println("Total transaction amount:\n\t" + this.getTotalTransactionAmount());   } 
             else if (input == 4) 
-            {
+            {   System.out.println("Enter how transactions should be sorted:\n\tAmount\n\tDate");
+                this.scan.nextLine();
+                String sortOption = this.scan.nextLine().toLowerCase();
+                if (sortOption.equals("amount"))
+                {   Account.sortTransactionsByAmount(this.transactions);
+                    System.out.println("Transactions sorted by amount successfully:");
+                }
 
             } 
             else if (input == 5) 
@@ -161,26 +171,11 @@ class Account
                 String sortOption = this.scan.nextLine().toLowerCase();
                 if (sortOption.equals("amount"))
                 {   Account.sortTransactionsByAmount(this.transactions);
-                    System.out.println("Transactions sorted by amount successfully:");
-                    for (int i = 0; i < transactions.size(); i++)
-                    {   System.out.print(transactions.get(i).getAmount() + " ");   }
-                    System.out.print("\n");
-                }
-            } 
-            else if (input == 6) 
-            {   System.out.println("Enter how transactions should be sorted:\n\tAmount\n\tDate");
-                this.scan.nextLine();
-                String sortOption = this.scan.nextLine().toLowerCase();
-                if (sortOption.equals("amount"))
-                {   Account.sortTransactionsByAmount(this.transactions);
                     Account.reverseTransactionList(this.transactions);
                     System.out.println("Transactions sorted by amount successfully:");
-                    for (int i = 0; i < transactions.size(); i++)
-                    {   System.out.print(transactions.get(i).getAmount() + " ");   }
-                    System.out.print("\n");
                 }   
-            }
-            else if (input == 7) 
+            } 
+            else if (input == 6) 
             {   flag = false;   }
             else 
             {   System.out.println("Invalid input");   }
